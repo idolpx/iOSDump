@@ -10,7 +10,7 @@
 # http://linuxsleuthing.blogspot.com/2012/10/whos-texting-ios6-smsdb.html
 # http://www.securitylearn.net/2012/10/27/cookies-binarycookies-reader/
 # http://www.slideshare.net/ohprecio/iphone-forensics-without-iphone-using-itunes-backup
-
+# https://en.wikipedia.org/wiki/List_of_iOS_devices
 
 import shutil
 import os
@@ -27,8 +27,6 @@ from biplist import *
 
 # Setup Global Vars
 path = expanduser("~") + "/Library/Application Support/MobileSync/Backup/"
-
-
 
 # iOS Specific Filenames
 plistKeyChain = 'KeychainDomain-keychain-backup.plist'								# 51a4616e576dd33cd2abadfea874eb8ff246bf0e
