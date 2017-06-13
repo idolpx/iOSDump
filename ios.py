@@ -67,13 +67,13 @@ class ios:
 				"iPhone6,2": "iPhone 5S",
 				"iPhone7,2": "iPhone 6",
 				"iPhone7,1": "iPhone 6 Plus",
-				"iPhone8,1": "iPhone 6S"
-				"iPhone8,2": "iPhone 6S Plus"
-				"iPhone8,4": "iPhone SE"
-				"iPhone9,1": "iPhone 7"
-				"iPhone9,3": "iPhone 7"
-				"iPhone9,2": "iPhone 7 Plus"
-				"iPhone9,4": "iPhone 7 Plus"
+				"iPhone8,1": "iPhone 6S",
+				"iPhone8,2": "iPhone 6S Plus",
+				"iPhone8,4": "iPhone SE",
+				"iPhone9,1": "iPhone 7",
+				"iPhone9,3": "iPhone 7",
+				"iPhone9,2": "iPhone 7 Plus",
+				"iPhone9,4": "iPhone 7 Plus",
 				"iPod1,1": "iPod Touch 1G",
 				"iPod2,1": "iPod Touch 2G",
 				"iPod3,1": "iPod Touch 3G",
