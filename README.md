@@ -25,7 +25,7 @@ $ python iosdump.py
 * Camera Roll Images & Video files
 * Contacts
 * Notes
-* SMS & iMessage Messages & Attachments
+* SMS & iMessage Messages (Including Attachments)
 * Voice Memos
 * Voicemail Messages
 
