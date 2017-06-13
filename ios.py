@@ -52,7 +52,7 @@ class ios:
 
 	# Device Model Strings
 	devices = {
-				"iPhone1,1": "iPhone", 
+				"iPhone1,1": "iPhone",
 				"iPhone1,2": "iPhone 3",
 				"iPhone2,1": "iPhone 3GS",
 				"iPhone3,1": "iPhone 4",
@@ -67,12 +67,20 @@ class ios:
 				"iPhone6,2": "iPhone 5S",
 				"iPhone7,2": "iPhone 6",
 				"iPhone7,1": "iPhone 6 Plus",
-				"iPod1,1": "iPod Touch 1st", 
-				"iPod2,1": "iPod Touch 2nd",
-				"iPod3,1": "iPod Touch 3rd",
-				"iPod4,1": "iPod Touch 4th",
-				"iPod5,1": "iPod Touch 5th",
-				"iPad1,1": "iPad", 
+				"iPhone8,1": "iPhone 6S"
+				"iPhone8,2": "iPhone 6S Plus"
+				"iPhone8,4": "iPhone SE"
+				"iPhone9,1": "iPhone 7"
+				"iPhone9,3": "iPhone 7"
+				"iPhone9,2": "iPhone 7 Plus"
+				"iPhone9,4": "iPhone 7 Plus"
+				"iPod1,1": "iPod Touch 1G",
+				"iPod2,1": "iPod Touch 2G",
+				"iPod3,1": "iPod Touch 3G",
+				"iPod4,1": "iPod Touch 4G",
+				"iPod5,1": "iPod Touch 5G",
+				"iPod7,1": "iPod Touch 6G",
+				"iPad1,1": "iPad",
 				"iPad2,1": "iPad 2",
 				"iPad2,2": "iPad 2",
 				"iPad2,3": "iPad 2",
@@ -88,6 +96,8 @@ class ios:
 				"iPad4,3": "iPad Air",
 				"iPad5,3": "iPad Air 2",
 				"iPad5,4": "iPad Air 2",
+				"iPad6,11": "iPad (2017)",
+				"iPad6,12": "iPad (2017)",
 				"iPad2,5": "iPad Mini",
 				"iPad2,6": "iPad Mini",
 				"iPad2,7": "iPad Mini",
@@ -96,7 +106,13 @@ class ios:
 				"iPad4,6": "iPad Mini 2",
 				"iPad4,7": "iPad Mini 3",
 				"iPad4,8": "iPad Mini 3",
-				"iPad4,9": "iPad Mini 3"
+				"iPad4,9": "iPad Mini 3",
+				"iPad5,1": "iPad Mini 4",
+				"iPad5,2": "iPad Mini 4",
+				"iPad6,7": "iPad Pro (12.9in)",
+				"iPad6,8": "iPad Pro (12.9in)",
+				"iPad6,3": "iPad Pro (9.7in)",
+				"iPad6,4": "iPad Pro (9.7in)"
 			}
 
 	deviceType = ''
@@ -190,16 +206,16 @@ class ios:
 			cursor = db.cursor()
 
 			try:
-				sql = '''SELECT message.ROWID, 
-							message.flags, 
+				sql = '''SELECT message.ROWID,
+							message.flags,
 							ifnull(message.address,'') || ifnull(madrid_handle,'') as address,
 							message.subject,
-							message.text, 
-							message.group_id, 
-							message.recipients, 
-							message.read, 
-							message.association_id, 
-							message.UIFlags, 
+							message.text,
+							message.group_id,
+							message.recipients,
+							message.read,
+							message.association_id,
+							message.UIFlags,
 							datetime(message.date+978307200, 'unixepoch', 'localtime') as 'date'
 						FROM message
 						WHERE message.text is not NULL
@@ -215,16 +231,16 @@ class ios:
 
 			try:
 				# No 'madrid_handle' field in message table
-				sql = '''SELECT message.ROWID, 
-							message.flags, 
+				sql = '''SELECT message.ROWID,
+							message.flags,
 							message.address as address,
 							message.subject,
-							message.text, 
-							message.group_id, 
-							message.recipients, 
-							message.read, 
-							message.association_id, 
-							message.UIFlags, 
+							message.text,
+							message.group_id,
+							message.recipients,
+							message.read,
+							message.association_id,
+							message.UIFlags,
 							datetime(message.date+978307200, 'unixepoch', 'localtime') as 'date'
 						FROM message
 						WHERE message.text is not NULL
@@ -234,7 +250,7 @@ class ios:
 
 				with open(path + filename, 'w') as outfile:
 					json.dump(cursor.fetchall(), outfile, default=base64.b64encode)
-					
+
 			except Exception as e:
 				print e
 
@@ -293,19 +309,19 @@ class ios:
 			db = sqlite3.connect(self.path() + self.dbSMS)
 			cursor = db.cursor()
 
-			sql = '''SELECT chat_message_join.chat_id as id, 
-						handle.id as contact_id, 
-						message.is_from_me, 
+			sql = '''SELECT chat_message_join.chat_id as id,
+						handle.id as contact_id,
+						message.is_from_me,
 						message.text,
 						chat.state,
 						message.is_read,
 						message.is_sent,
-						datetime(message.date+978307200, 'unixepoch', 'localtime') as 'date', 
+						datetime(message.date+978307200, 'unixepoch', 'localtime') as 'date',
 						datetime(message.date_read+978307200, 'unixepoch', 'localtime') as 'date_read',
 						datetime(message.date_delivered+978307200, 'unixepoch', 'localtime') as 'date_delivered'
 					FROM chat INNER JOIN chat_message_join ON chat.ROWID = chat_message_join.chat_id
 						 INNER JOIN message ON chat_message_join.message_id = message.ROWID
-						 INNER JOIN chat_handle_join ON chat.ROWID = chat_handle_join.chat_id AND chat_handle_join.handle_id = handle.ROWID, 
+						 INNER JOIN chat_handle_join ON chat.ROWID = chat_handle_join.chat_id AND chat_handle_join.handle_id = handle.ROWID,
 						handle
 					ORDER BY chat_message_join.chat_id, message.date'''
 
@@ -375,23 +391,23 @@ class ios:
 			dbAB = sqlite3.connect(self.path() + self.dbAddressBook)
 			cursorAB = dbAB.cursor()
 
-			sql = '''SELECT ABPerson.ROWID as id, 
-								ABPerson.DisplayName, 
-								ABPerson.First, 
-								ABPerson.Middle, 
-								ABPerson.Last, 
-								ABPerson.Nickname, 
-								ABPerson.Organization, 
-								ABPerson.Department, 
-								ABPerson.JobTitle, 
-								ABPerson.Note, 
-								ABPerson.Birthday, 
-								ABPersonFullTextSearch_content.c15Phone, 
-								ABPersonFullTextSearch_content.c16Email, 
-								ABPersonFullTextSearch_content.c18SocialProfile, 
+			sql = '''SELECT ABPerson.ROWID as id,
+								ABPerson.DisplayName,
+								ABPerson.First,
+								ABPerson.Middle,
+								ABPerson.Last,
+								ABPerson.Nickname,
+								ABPerson.Organization,
+								ABPerson.Department,
+								ABPerson.JobTitle,
+								ABPerson.Note,
+								ABPerson.Birthday,
+								ABPersonFullTextSearch_content.c15Phone,
+								ABPersonFullTextSearch_content.c16Email,
+								ABPersonFullTextSearch_content.c18SocialProfile,
 								ABPersonFullTextSearch_content.c19URL,
-								datetime(ABPerson.CreationDate+978307200, 'unixepoch', 'localtime') AS creation_date, 
-								datetime(ABPerson.ModificationDate+978307200, 'unixepoch', 'localtime') AS modified_date								
+								datetime(ABPerson.CreationDate+978307200, 'unixepoch', 'localtime') AS creation_date,
+								datetime(ABPerson.ModificationDate+978307200, 'unixepoch', 'localtime') AS modified_date
 							FROM ABPerson INNER JOIN ABPersonFullTextSearch_content ON ABPerson.ROWID = ABPersonFullTextSearch_content.docid
 							ORDER BY ABPerson.ROWID'''
 
@@ -437,11 +453,11 @@ class ios:
 				f.write(row['data'])
 				f.close()
 
-			dbABI.close()		
+			dbABI.close()
 		except Exception as e:
 			print e
 
-			
+
 
 # Call History
 # WirelessDomain
@@ -455,7 +471,7 @@ class ios:
 
 			sql = '''SELECT  call.ROWID as id,
 						call.id as contact_id,
-						call.address, 
+						call.address,
 						call.duration,
 						call.flags,
 						datetime(call.date+978307200, 'unixepoch', 'localtime') as 'date'
@@ -482,11 +498,11 @@ class ios:
 			db = sqlite3.connect(self.path() + self.dbCalendar)
 			cursor = db.cursor()
 
-			sql = '''SELECT ZNOTE.ZBODY as id, 
-						ZNOTE.ZTITLE as title, 
-						ZNOTE.ZSUMMARY as summary, 
-						ZNOTEBODY.ZCONTENT as content, 
-						ZNOTE.ZDELETEDFLAG as deleted, 
+			sql = '''SELECT ZNOTE.ZBODY as id,
+						ZNOTE.ZTITLE as title,
+						ZNOTE.ZSUMMARY as summary,
+						ZNOTEBODY.ZCONTENT as content,
+						ZNOTE.ZDELETEDFLAG as deleted,
 						datetime(ZNOTE.ZCREATIONDATE+978307200, 'unixepoch', 'localtime') as 'creation_date',
 						datetime(ZNOTE.ZMODIFICATIONDATE+978307200, 'unixepoch', 'localtime') as 'modified_date'
 					FROM ZNOTE INNER JOIN ZNOTEBODY ON ZNOTE.Z_PK = ZNOTEBODY.ZOWNER
@@ -508,8 +524,8 @@ class ios:
 # Media/PhotoData/*
 # Library/Preferences/com.apple.mobileslideshow.plist
 # Media/DCIM/[number1]APPLE/IMG_[number2].[extension]
-# Media file in the Camera Roll, be it photo, screenshot, video, or saved from elsewhere. 
-# Number1 is the number of the Camera Roll, which depends on how many Camera Rolls you've had and ranges from 100-999. 
+# Media file in the Camera Roll, be it photo, screenshot, video, or saved from elsewhere.
+# Number1 is the number of the Camera Roll, which depends on how many Camera Rolls you've had and ranges from 100-999.
 # Number2 is the chronological number of the file in the Camera Roll, which ranges from 0001-9999.
 # Media/PhotoData/Metadata/DCIM/[number >= 100]APPLE/IMG_[number of video in Camera Roll].JPG - Preview image of a video in the Camera Roll before you press the play button
 # Media/PhotoData/Metadata/DCIM/[number >= 100]APPLE/IMG_[number of video in Camera Roll].THM - Thumbnail of a video in the Camera Roll
@@ -522,22 +538,22 @@ class ios:
 			db = sqlite3.connect(self.path() + self.dbPhotos)
 			cursor = db.cursor()
 
-			sql = '''SELECT ZGENERICASSET.Z_PK AS id, 
-						ZGENERICASSET.ZKIND AS kind, 
-						ZGENERICASSET.ZWIDTH AS width, 
-						ZGENERICASSET.ZHEIGHT AS height, 
+			sql = '''SELECT ZGENERICASSET.Z_PK AS id,
+						ZGENERICASSET.ZKIND AS kind,
+						ZGENERICASSET.ZWIDTH AS width,
+						ZGENERICASSET.ZHEIGHT AS height,
 						ZGENERICASSET.ZORIENTATION AS orientation,
-						ZADDITIONALASSETATTRIBUTES.ZDURATION as duration, 
-						ZADDITIONALASSETATTRIBUTES.ZORIGINALFILESIZE as filesize, 						
-						ZGENERICASSET.ZDIRECTORY AS directory, 
-						ZGENERICASSET.ZFILENAME AS filename, 
-						ZGENERICASSET.ZUNIFORMTYPEIDENTIFIER AS type, 
+						ZADDITIONALASSETATTRIBUTES.ZDURATION as duration,
+						ZADDITIONALASSETATTRIBUTES.ZORIGINALFILESIZE as filesize,
+						ZGENERICASSET.ZDIRECTORY AS directory,
+						ZGENERICASSET.ZFILENAME AS filename,
+						ZGENERICASSET.ZUNIFORMTYPEIDENTIFIER AS type,
 						ZGENERICASSET.ZTHUMBNAILINDEX AS thumbnail_index,
-						ZADDITIONALASSETATTRIBUTES.ZEMBEDDEDTHUMBNAILWIDTH, 
-						ZADDITIONALASSETATTRIBUTES.ZEMBEDDEDTHUMBNAILHEIGHT, 
-						ZADDITIONALASSETATTRIBUTES.ZEMBEDDEDTHUMBNAILLENGTH, 
+						ZADDITIONALASSETATTRIBUTES.ZEMBEDDEDTHUMBNAILWIDTH,
+						ZADDITIONALASSETATTRIBUTES.ZEMBEDDEDTHUMBNAILHEIGHT,
+						ZADDITIONALASSETATTRIBUTES.ZEMBEDDEDTHUMBNAILLENGTH,
 						ZADDITIONALASSETATTRIBUTES.ZEMBEDDEDTHUMBNAILOFFSET,
-						datetime(ZGENERICASSET.ZDATECREATED+978307200, 'unixepoch', 'localtime') AS creation_date, 
+						datetime(ZGENERICASSET.ZDATECREATED+978307200, 'unixepoch', 'localtime') AS creation_date,
 						datetime(ZGENERICASSET.ZMODIFICATIONDATE+978307200, 'unixepoch', 'localtime') AS modified_date
 					FROM ZGENERICASSET INNER JOIN ZADDITIONALASSETATTRIBUTES ON ZGENERICASSET.ZADDITIONALATTRIBUTES = ZADDITIONALASSETATTRIBUTES.Z_PK
 					WHERE ZGENERICASSET.ZDATECREATED is not NULL
@@ -597,7 +613,7 @@ class ios:
 
 			sql = '''SELECT voicemail.ROWID as id,
 						voicemail.remote_uid,
-						voicemail.sender, 
+						voicemail.sender,
 						voicemail.duration,
 						voicemail.flags,
 						datetime(voicemail.date+978307200, 'unixepoch', 'localtime') as 'date',
@@ -645,9 +661,9 @@ class ios:
 			db = sqlite3.connect(self.path() + self.dbRecordings)
 			cursor = db.cursor()
 
-			sql = '''SELECT ZRECORDING.Z_PK as id, 
-						ZRECORDING.ZCUSTOMLABEL as label, 
-						ZRECORDING.ZDURATION as duration, 
+			sql = '''SELECT ZRECORDING.Z_PK as id,
+						ZRECORDING.ZCUSTOMLABEL as label,
+						ZRECORDING.ZDURATION as duration,
 						ZRECORDING.ZPATH as path,
 						datetime(ZRECORDING.ZDATE+978307200, 'unixepoch', 'localtime') as 'date'
 					FROM ZRECORDING
@@ -693,11 +709,11 @@ class ios:
 			db = sqlite3.connect(self.path() + self.dbNotes)
 			cursor = db.cursor()
 
-			sql = '''SELECT ZNOTE.ZBODY as id, 
-						ZNOTE.ZTITLE as title, 
-						ZNOTE.ZSUMMARY as summary, 
-						ZNOTEBODY.ZCONTENT as content, 
-						ZNOTE.ZDELETEDFLAG as deleted, 
+			sql = '''SELECT ZNOTE.ZBODY as id,
+						ZNOTE.ZTITLE as title,
+						ZNOTE.ZSUMMARY as summary,
+						ZNOTEBODY.ZCONTENT as content,
+						ZNOTE.ZDELETEDFLAG as deleted,
 						datetime(ZNOTE.ZCREATIONDATE+978307200, 'unixepoch', 'localtime') as 'creation_date',
 						datetime(ZNOTE.ZMODIFICATIONDATE+978307200, 'unixepoch', 'localtime') as 'modified_date'
 					FROM ZNOTE INNER JOIN ZNOTEBODY ON ZNOTE.Z_PK = ZNOTEBODY.ZOWNER
@@ -711,5 +727,3 @@ class ios:
 			db.close()
 		except Exception as e:
 			print e
-
-
