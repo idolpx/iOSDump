@@ -35,7 +35,7 @@ $ python iosdump.py
 * Build HTML/CSS device simulators
 * Build HTML/CSS app simulators for displaying specific data
 * Automatically launch browser with index.html after dump is complete
-* Support encrypted backups
+* Support encrypted & icloud backups
 * Show progress in UI during dumping process
 * Add option to specify where to dump the data
 * Add option to select where backup is stored
