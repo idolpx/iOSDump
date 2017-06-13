@@ -34,6 +34,8 @@ $ python iosdump.py
 * Support encrypted backups
 * Show progress in UI during dumping process
 * Add option to specify where to dump the data
+* Add option to select where backup is stored
+  (For selecting backups on a removable/network drive)
 * Support plugins for extracting App Specific data
   (Facebook, Messenger, What's App, Kik, Tinder, etc.)
   
