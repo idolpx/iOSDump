@@ -1,0 +1,106 @@
+#:kivy 1.8.0
+
+<ButtonListItem@Button>:
+	wid: self.wid
+	image: self.image
+	title: self.title
+	label: self.label
+	on_press: self.click()
+	BoxLayout:
+		orientation: "horizontal"
+		size: self.parent.size 		# match the button's size
+		pos: self.parent.pos        # match the button's position
+		padding: 5
+		spacing: 10
+
+		Image:
+			size_hint: None, 1
+			source: root.image
+			size: 64, 64
+			valign: "middle"
+
+		Label:
+			size_hint: None, 1
+			text: root.label
+			valign: "middle"
+			size: 400, 64
+			text_size: self.size
+
+<DisplayListItem@Button>:
+	wid: self.wid
+	image: self.image
+	title: self.title
+	label: self.label
+	on_press: self.click()
+	background_color: (0,0,0,0)
+	BoxLayout:
+		orientation: "horizontal"
+		size: self.parent.size 		# match the button's size
+		pos: self.parent.pos        # match the button's position
+		padding: 5
+		spacing: 10
+
+		Image:
+			size_hint: None, None
+			source: root.image
+			size: 16, 16
+			valign: "middle"
+
+		Label:
+			size_hint: None, None
+			text: root.label
+			valign: "middle"
+			size: 400, 16
+			text_size: self.size
+
+<ButtonList@GridLayout>
+	id: output
+	cols: 1
+	size_hint_y: None
+	height: self.minimum_height
+
+
+<Detail@Screen>
+	image: self.image
+	label: self.label
+	GridLayout:
+		cols: 1
+		size_hint_y: None
+		size: self.parent.size
+
+		ButtonListItem:
+			wid: 'details'
+			size_hint: 1, None
+			height: 78
+			image: root.image
+			label: root.label
+
+		ScrollView:
+			enabled: False
+			size_hint: 1, None
+			height: 240
+			GridLayout:
+				id: display
+				cols: 1
+				width: self.parent.width
+				height: 34
+				size_hint_y:None
+				#padding: 10
+				DisplayListItem:
+					label: "Ready!"
+
+
+		BoxLayout:
+			Button:
+				id: "back"
+				text: "< Back"
+				height: 25
+				on_press:
+					app.screen.transition.direction = 'right'
+					app.screen.current = "select"
+			Button:
+				id: "dump"
+				text: "Dump!!!"
+				height: 25
+				on_press:
+					app.dumpData()
