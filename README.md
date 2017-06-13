@@ -1,5 +1,5 @@
 # iOSDump
-Dump contents of an iOS device backup
+Dump contents of an iOS device iTunes backup
 
 This project was intended to get me failiar with [Kivy](https://kivy.org) and also to help me learn how data is stored in an iTunes backup file.
 
