@@ -19,15 +19,17 @@ $ python iosdump.py
 
 ## Currently Extracts the following
 * Call History
+* Calendar
 * Camera Roll Images & Video files
 * Contacts
 * Notes
-* Recordings
-* SMS Messages & Attachments
+* SMS & iMessage Messages & Attachments
+* Voice Memos
 * Voicemail Messages
 
 
 ## To-Do
+* Extract Browser History & Bookmarks
 * Build HTML/CSS device simulators
 * Build HTML/CSS app simulators for displaying specific data
 * Automatically launch browser with index.html after dump is complete
@@ -37,6 +39,6 @@ $ python iosdump.py
 * Add option to select where backup is stored
   (For selecting backups on a removable/network drive)
 * Support plugins for extracting App Specific data
-  (Facebook, Messenger, What's App, Kik, Tinder, etc.)
+  (Facebook, Messenger, WhatsApp, Kik, Tinder, etc.)
   
 I wrote this code a few years ago and I'm still no expert python coder.  If you see a better way to do something I have in here, please let me know.  Anyway, I haven't touched this in a while except to add a few more devices to the list.  I figured I would share it before it got lost forever.  Maybe there are some others out there that want to help complete this project.  I'd like to find some time to work on it some more myself.  Some company and fresh eyes would be nice too though.
