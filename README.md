@@ -1,7 +1,7 @@
 # iOSDump
 Dump contents of an iOS device iTunes backup
 
-This project was intended to get me failiar with [Kivy](https://kivy.org) and also to help me learn how data is stored in an iTunes backup file.
+This project was intended to get me failiar with programming in Python & [Kivy](https://kivy.org) and also to help me learn how data is stored in an iTunes backup file.
 
 The goal was to dump all of the data from a backup of an iOS device along with an HTML/CSS user interface to simulate the device in a browser to be able to access all of the extracted data.
 
@@ -39,3 +39,4 @@ $ python iosdump.py
 * Support plugins for extracting App Specific data
   (Facebook, Messenger, What's App, Kik, Tinder, etc.)
   
+I wrote this code a few years ago and I'm still no expert python coder.  If you see a better way to do something I have in here, please let me know.  Anyway, I haven't touched this in a while except to add a few more devices to the list.  I figured I would share it before it got lost forever.  Maybe there are some others out there that want to help complete this project.  I'd like to find some time to work on it some more myself.  Some company and fresh eyes would be nice too though.
