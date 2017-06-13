@@ -3,7 +3,7 @@ Dump contents of an iOS device iTunes backup
 
 ![Screen Shot 2017-06-13 at 1.06.17 AM.png](https://s20.postimg.org/v59ebrrh9/Screen_Shot_2017-06-13_at_1.06.17_AM.png) ![Screen Shot 2017-06-13 at 1.08.20 AM.png](https://s20.postimg.org/k4e96qz8d/Screen_Shot_2017-06-13_at_1.08.20_AM.png)
 
-This project was intended to get me failiar with programming in Python & [Kivy](https://kivy.org) and also to help me learn how data is stored in an iTunes backup file.
+This project was intended to get me failiar with programming in Python & [Kivy](https://kivy.org) and also to help me learn how data is stored in an iTunes backup.
 
 The goal was to dump all of the data from a backup of an iOS device along with an HTML/CSS user interface to simulate the device in a browser to be able to access all of the extracted data.
 
@@ -29,8 +29,8 @@ $ python iosdump.py
 * Voice Memos
 * Voicemail Messages
 
-
 ## To-Do
+* Recover Restriction Passcode
 * Extract Browser History & Bookmarks
 * Build HTML/CSS device simulators
 * Build HTML/CSS app simulators for displaying specific data
