@@ -1,7 +1,7 @@
 # iOSDump
 Dump contents of an iOS device iTunes backup
 
-![Screen Shot 2017-06-13 at 1.06.17 AM.png](https://s20.postimg.org/v59ebrrh9/Screen_Shot_2017-06-13_at_1.06.17_AM.png) ![Screen Shot 2017-06-13 at 1.08.20 AM.png](https://s20.postimg.org/k4e96qz8d/Screen_Shot_2017-06-13_at_1.08.20_AM.png)
+![iosdump-backup-list.png](doc/iosdump-backup-list.png) ![iosdump-device.png](doc/iosdump-device.png)
 
 This project was intended to get me familiar with programming in Python & [Kivy](https://kivy.org) and also to help me learn how data is stored in an iTunes backup.
 
