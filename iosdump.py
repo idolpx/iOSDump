@@ -23,20 +23,20 @@ def selectBackup():
 
 	for i in range(len(iosBackup.backups)):
 		iosBackup.select(i)
-		print str(i) + ":\t" + iosBackup.deviceName + " (" + str(iosBackup.lastBackupDate) + ")"
+		print ( str(i) + ":\t" + iosBackup.deviceName + " (" + str(iosBackup.lastBackupDate) + ")" )
 
 	print
-	selected = raw_input("Select Backup to Dump: ")
+	selected = input("Select Backup to Dump: ")
 	if len(selected) > 0:
 		selected = int(selected)
 	else:
 		selected = 0
 		
 	if selected < 0 or selected > len(iosBackup.backups) - 1:
-		print "Invalid Selection!"
+		print ( "Invalid Selection!" )
 	else:
 		iosBackup.select(selected)
-		print "You selected: " + str(selected) + " - " + iosBackup.deviceName + " (" + str(iosBackup.lastBackupDate) + ")"
+		print ( "You selected: " + str(selected) + " - " + iosBackup.deviceName + " (" + str(iosBackup.lastBackupDate) + ")" )
 		iosDumpData(selected)
 
 def cleanFolder(folder):
@@ -47,30 +47,30 @@ def cleanFolder(folder):
 				os.unlink(file_path)
 			else:
 				shutil.rmtree(file_path)
-		except Exception, e:
-			print e
+		except Exception as e:
+			print ( e )
 
 def iosDumpData(selection):
 	iosBackup.index = selection
 
 	# Clean Up Previous Dump
 	if not os.path.exists(outputFolder):
-		os.mkdir(outputFolder, 0755)
+		os.mkdir(outputFolder, 755)
 	else:
 		cleanFolder(outputFolder)
 
-		os.mkdir(outputFolder + "contacts", 0755)
-		os.mkdir(outputFolder + "db", 0755)
-		os.mkdir(outputFolder + "roll", 0755)
-		os.mkdir(outputFolder + "rec", 0755)
-		os.mkdir(outputFolder + "sms", 0755)
-		os.mkdir(outputFolder + "vm", 0755)
+		os.mkdir(outputFolder + "contacts", 755)
+		os.mkdir(outputFolder + "db", 755)
+		os.mkdir(outputFolder + "roll", 755)
+		os.mkdir(outputFolder + "rec", 755)
+		os.mkdir(outputFolder + "sms", 755)
+		os.mkdir(outputFolder + "vm", 755)
 
 
-	#print ios.dbRecordings
-	#print iosBackup.deviceName(0) + " (" + iosBackup.backups[0] + ")"
-	print outputFolder
-	print iosBackup.path()
+	#print ( ios.dbRecordings
+	#print ( iosBackup.deviceName(0) + " (" + iosBackup.backups[0] + ")"
+	print ( outputFolder )
+	print ( iosBackup.path() )
 
 	# Copy Database Files to Output Folder
 	if os.path.exists(iosBackup.path() + ios.dbAddressBook):
@@ -92,28 +92,28 @@ def iosDumpData(selection):
 	if os.path.exists(iosBackup.path() + ios.dbVoicemail):
 		shutil.copyfile(iosBackup.path() + ios.dbVoicemail, outputFolder + "db/voicemail.sqlite")
 
-	print "Dumping SMS Messages"
+	print ( "Dumping SMS Messages" )
 	iosBackup.dumpSMS(outputFolder, "sms.json")
 
-	print "Dumping Call History"
+	print ( "Dumping Call History" )
 	iosBackup.dumpCallHistory(outputFolder + "callhistory.json")
 
-	print "Dumping Address Book"
+	print ( "Dumping Address Book" )
 	iosBackup.dumpAddressBook(outputFolder)
 
-	print "Dumping Voicemail"
+	print ( "Dumping Voicemail" )
 	iosBackup.dumpVoicemail(outputFolder, "voicemail.json")
 
-	print "Dumping Voice Memos"
+	print ( "Dumping Voice Memos" )
 	iosBackup.dumpMemos(outputFolder, "recordings.json")
 
-	print "Dumping Camera Roll"
+	print ( "Dumping Camera Roll" )
 	iosBackup.dumpCameraRoll(outputFolder, "cameraroll.json")
 
-	print "Dumping Notes"
+	print ( "Dumping Notes" )
 	iosBackup.dumpNotes(outputFolder + "notes.json")
 
-	print "Dump Complete!"
+	print ( "Dump Complete!" )
 
 	os.system("open " + outputFolder)
 
@@ -126,10 +126,10 @@ outputFolder = expanduser(".") + "/dump/"
 if __name__ == "__main__":
 	# Initialize Objects & Set Output Folder
 	if not os.path.exists(outputFolder):
-		os.mkdir(outputFolder, 0755)
+		os.mkdir(outputFolder, 755)
 	else:
 		cleanFolder(outputFolder)
 
 
-	print "\nWhich iTunes Backup would you like to dump?\n"
+	print ( "\nWhich iTunes Backup would you like to dump?\n" )
 	selectBackup()

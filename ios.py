@@ -123,19 +123,19 @@ class ios:
 	targetIdentifier = ''
 
 	# Hash iOS Filenames
-	plistKeyChain = hashlib.sha1(plistKeyChain).hexdigest()
-	plistHistory = hashlib.sha1(plistHistory).hexdigest()
-	plistRestrictions = hashlib.sha1(plistRestrictions).hexdigest()
+	plistKeyChain = hashlib.sha1(plistKeyChain.encode('utf-8')).hexdigest()
+	plistHistory = hashlib.sha1(plistHistory.encode('utf-8')).hexdigest()
+	plistRestrictions = hashlib.sha1(plistRestrictions.encode('utf-8')).hexdigest()
 
-	dbSMS = hashlib.sha1(dbSMS).hexdigest()
-	dbAddressBook = hashlib.sha1(dbAddressBook).hexdigest()
-	dbAddressBookImages = hashlib.sha1(dbAddressBookImages).hexdigest()
-	dbCallHistory = hashlib.sha1(dbCallHistory).hexdigest()
-	dbNotes = hashlib.sha1(dbNotes).hexdigest()
-	dbCalendar = hashlib.sha1(dbCalendar).hexdigest()
-	dbVoicemail = hashlib.sha1(dbVoicemail).hexdigest()
-	dbPhotos = hashlib.sha1(dbPhotos).hexdigest()
-	dbRecordings = hashlib.sha1(dbRecordings).hexdigest()
+	dbSMS = hashlib.sha1(dbSMS.encode('utf-8')).hexdigest()
+	dbAddressBook = hashlib.sha1(dbAddressBook.encode('utf-8')).hexdigest()
+	dbAddressBookImages = hashlib.sha1(dbAddressBookImages.encode('utf-8')).hexdigest()
+	dbCallHistory = hashlib.sha1(dbCallHistory.encode('utf-8')).hexdigest()
+	dbNotes = hashlib.sha1(dbNotes.encode('utf-8')).hexdigest()
+	dbCalendar = hashlib.sha1(dbCalendar.encode('utf-8')).hexdigest()
+	dbVoicemail = hashlib.sha1(dbVoicemail.encode('utf-8')).hexdigest()
+	dbPhotos = hashlib.sha1(dbPhotos.encode('utf-8')).hexdigest()
+	dbRecordings = hashlib.sha1(dbRecordings.encode('utf-8')).hexdigest()
 
 	def __init__(self):
 		self.index = 0
@@ -156,8 +156,8 @@ class ios:
 				self.deviceName = info['Device Name']
 				self.lastBackupDate = info['Last Backup Date']
 				self.targetIdentifier = info['Target Identifier']
-			except Exception, e:
-				print e
+			except Exception as e:
+				print ( e )
 
 		#self.dumpRestrictionPasscode(index)
 
@@ -175,16 +175,16 @@ class ios:
 
 	def dumpRestrictionPasscode(self, index):
 		plistRestrictions = path + self.backups[index] + "/" + self.plistRestrictions
-		#print "Restriction Passcode: " + plistRestrictions
+		#print ( "Restriction Passcode: " + plistRestrictions )
 		if os.path.exists(plistRestrictions):
 			try:
 				info = readPlist(plistRestrictions)
 				self.restrictionPasscode = info['SBParentalControlsPIN']
 				self.restrictionFailedAttempts = info['SBParentalControlsFailedAttempts']
-				#print "Restriction Passcode: " + info['SBParentalControlsPIN']
-				#print "Restriction Passcode: " + info['SBParentalControlsFailedAttempts']
-			except Exception, e:
-				print e
+				#print ( "Restriction Passcode: " + info['SBParentalControlsPIN'] )
+				#print ( "Restriction Passcode: " + info['SBParentalControlsFailedAttempts'] )
+			except Exception as e:
+				print ( e )
 
 # SMS, MMS, iMessages, and iMessage/FaceTime settings
 # HomeDomain
@@ -199,7 +199,7 @@ class ios:
 
 		# iOS < v7 - Database Extraction
 		try:
-			print "SMS Database: " + self.path() + self.dbSMS
+			print ( "SMS Database: " + self.path() + self.dbSMS )
 			db = sqlite3.connect(self.path() + self.dbSMS)
 			cursor = db.cursor()
 
@@ -225,7 +225,7 @@ class ios:
 					json.dump(cursor.fetchall(), outfile, default=base64.b64encode)
 
 			except Exception as e:
-				print e
+				print ( e )
 
 			try:
 				# No 'madrid_handle' field in message table
@@ -250,28 +250,28 @@ class ios:
 					json.dump(cursor.fetchall(), outfile, default=base64.b64encode)
 
 			except Exception as e:
-				print e
+				print ( e )
 
 
 			try:
 				# Dump SMS Message Group Data
 				sql = "SELECT * FROM msg_group"
 				cursor.execute(sql)
-				print "msg_group: " + path + "sms_group.json"
+				print ( "msg_group: " + path + "sms_group.json" )
 				with open(path + "sms_group.json", 'w') as outfile:
 					json.dump(cursor.fetchall(), outfile, default=base64.b64encode)
 			except Exception as e:
-				print e
+				print ( e )
 
 			try:
 				# Dump SMS Attachment Data
 				sql = "SELECT * FROM msg_pieces"
 				cursor.execute(sql)
-				print "msg_pieces: " + path + "sms_pieces.json"
+				print ( "msg_pieces: " + path + "sms_pieces.json" )
 				with open(path + "sms_pieces.json", 'w') as outfile:
 					json.dump(cursor.fetchall(), outfile, default=base64.b64encode)
 			except Exception as e:
-				print e
+				print ( e )
 
 			db.close()
 
@@ -286,24 +286,24 @@ class ios:
 					if row['content_loc'] is not None:
 						# Write each attachment out to the sms folder
 						f = "MediaDomain-Library/SMS/Attachments/" + row['content_loc']
-						print f
+						print ( f )
 						f = self.path() + hashlib.sha1(f).hexdigest()
-						print f
+						print ( f )
 						if os.path.exists(f):
 							shutil.copyfile(f, path + "sms/" + row['content_loc'])
 
 				db.close()
 			except Exception as e:
-				print e
+				print ( e )
 
 		except Exception as e:
-			print e
+			print ( e )
 
 
 
 		# iOS >= v6 - Database Extraction
 		try:
-			print "SMS Database: " + self.path() + self.dbSMS
+			print ( "SMS Database: " + self.path() + self.dbSMS )
 			db = sqlite3.connect(self.path() + self.dbSMS)
 			cursor = db.cursor()
 
@@ -332,21 +332,21 @@ class ios:
 				# Dump SMS Message Group Data
 				sql = "SELECT * FROM chat"
 				cursor.execute(sql)
-				print "chat: " + path + "sms_chat.json"
+				print ( "chat: " + path + "sms_chat.json" )
 				with open(path + "sms_chat.json", 'w') as outfile:
 					json.dump(cursor.fetchall(), outfile, default=base64.b64encode)
 			except Exception as e:
-				print e
+				print ( e )
 
 			try:
 				# Dump SMS Attachment Data
 				sql = "SELECT * FROM attachment"
 				cursor.execute(sql)
-				print "attachment: " + path + "sms_attachment.json"
+				print ( "attachment: " + path + "sms_attachment.json" )
 				with open(path + "sms_attachment.json", 'w') as outfile:
 					json.dump(cursor.fetchall(), outfile, default=base64.b64encode)
 			except Exception as e:
-				print e
+				print ( e )
 
 			db.close()
 
@@ -363,19 +363,19 @@ class ios:
 						f = row['filename']
 						f = f.replace("/var/mobile/", "MediaDomain-")
 						f = f.replace("~/", "MediaDomain-")
-						#print f
+						#print ( f )
 						f = self.path() + hashlib.sha1(f).hexdigest()
-						#print f
+						#print ( f )
 						if os.path.exists(f):
 							head, tail = os.path.split(row['filename'])
 							shutil.copyfile(f, path + "sms/" + tail)
 
 				db.close()
 			except Exception as e:
-				print e
+				print ( e )
 
 		except Exception as e:
-			print e
+			print ( e )
 
 
 
@@ -385,7 +385,7 @@ class ios:
 
 	def dumpAddressBook(self, path):
 		try:
-			print "Address Book Database: " + self.path() + self.dbAddressBook
+			print ( "Address Book Database: " + self.path() + self.dbAddressBook )
 			dbAB = sqlite3.connect(self.path() + self.dbAddressBook)
 			cursorAB = dbAB.cursor()
 
@@ -420,7 +420,7 @@ class ios:
 				with open(path + "contact_address.json", 'w') as outfile:
 					json.dump(cursorAB.fetchall(), outfile, default=base64.b64encode)
 			except Exception as e:
-				print e
+				print ( e )
 
 			try:
 				sql = "SELECT * FROM ABMultiValue" # WHERE record_id = 1 Order By label"
@@ -428,11 +428,11 @@ class ios:
 				with open(path + "contact_phone_email.json", 'w') as outfile:
 					json.dump(cursorAB.fetchall(), outfile, default=base64.b64encode)
 			except Exception as e:
-				print e
+				print ( e )
 
 			dbAB.close()
 		except Exception as e:
-			print e
+			print ( e )
 
 
 		# Dump Address Book Images
@@ -446,14 +446,14 @@ class ios:
 			cursorABI.execute(sql)
 			for row in cursorABI:
 				# Write each image out to the contacts folder
-				print path + "contacts/%s.jpg" % row['record_id']
+				print ( path + "contacts/%s.jpg" % row['record_id'] )
 				f = open(path + "contacts/" + str(row['record_id']) + ".jpg", "w")
 				f.write(row['data'])
 				f.close()
 
 			dbABI.close()
 		except Exception as e:
-			print e
+			print ( e )
 
 
 
@@ -463,7 +463,7 @@ class ios:
 
 	def dumpCallHistory(self, filename):
 		try:
-			print "Call History Database: " + self.path() + self.dbCallHistory
+			print ( "Call History Database: " + self.path() + self.dbCallHistory )
 			db = sqlite3.connect(self.path() + self.dbCallHistory)
 			cursor = db.cursor()
 
@@ -483,7 +483,7 @@ class ios:
 
 			db.close()
 		except Exception as e:
-			print e
+			print ( e )
 
 # Calendar
 # HomeDomain
@@ -492,7 +492,7 @@ class ios:
 
 	def dumpCalendar(self, filename):
 		try:
-			print "Calendar Database: " + self.path() + self.dbCalendar
+			print ( "Calendar Database: " + self.path() + self.dbCalendar )
 			db = sqlite3.connect(self.path() + self.dbCalendar)
 			cursor = db.cursor()
 
@@ -513,7 +513,7 @@ class ios:
 
 			db.close()
 		except Exception as e:
-			print e
+			print ( e )
 
 
 # Camera Roll - When replacing, you should delete all files in the respected folders first
@@ -532,7 +532,7 @@ class ios:
 
 	def dumpCameraRoll(self, path, filename):
 		try:
-			print "Photo Database: " + self.path() + self.dbPhotos
+			print ( "Photo Database: " + self.path() + self.dbPhotos )
 			db = sqlite3.connect(self.path() + self.dbPhotos)
 			cursor = db.cursor()
 
@@ -564,7 +564,7 @@ class ios:
 
 			db.close()
 		except Exception as e:
-			print e
+			print ( e )
 
 
 		try:
@@ -577,7 +577,7 @@ class ios:
 				f = "CameraRollDomain-Media/" + row['directory'] + "/" + row['filename']
 				f = self.path() + hashlib.sha1(f).hexdigest()
 				if os.path.exists(f):
-					print f
+					print ( f )
 					shutil.copyfile(f, path + "roll/" + row['filename'])
 
 				# Copy video thumbnails to roll folder
@@ -585,18 +585,18 @@ class ios:
 					f = "CameraRollDomain-Media/PhotoData/Metadata/" + row['directory'] + "/" + row['title'] + ".THM"
 					f = self.path() + hashlib.sha1(f).hexdigest()
 					if os.path.exists(f):
-						print f
+						print ( f )
 						shutil.copyfile(f, path + "roll/" + row['title'] + ".JPG")
 					else:
 						f = "CameraRollDomain-Media/PhotoData/Metadata/" + row['directory'] + "/" + row['title'] + ".JPG"
 						f = self.path() + hashlib.sha1(f).hexdigest()
 						if os.path.exists(f):
-							print f
+							print ( f )
 							shutil.copyfile(f, path + "roll/" + row['title'] + ".JPG")
 
 			db.close()
 		except Exception as e:
-			print e
+			print ( e )
 
 
 # Voicemail
@@ -605,7 +605,7 @@ class ios:
 
 	def dumpVoicemail(self, path, filename):
 		try:
-			print "Voicemail Database: " + self.path() + self.dbVoicemail
+			print ( "Voicemail Database: " + self.path() + self.dbVoicemail )
 			db = sqlite3.connect(self.path() + self.dbVoicemail)
 			cursor = db.cursor()
 
@@ -626,7 +626,7 @@ class ios:
 
 			db.close()
 		except Exception as e:
-			print e
+			print ( e )
 
 
 		try:
@@ -638,13 +638,13 @@ class ios:
 				# Write each image out to the contacts folder
 				vm = "HomeDomain-Library/Voicemail/" + str(row['id']) + ".amr"
 				vm = self.path() + hashlib.sha1(vm).hexdigest()
-				print vm
+				print ( vm )
 				if os.path.exists(vm):
 					shutil.copyfile(vm, path + "vm/" + str(row['id']) + ".amr")
 
 			db.close()
 		except Exception as e:
-			print e
+			print ( e )
 
 
 
@@ -655,7 +655,7 @@ class ios:
 
 	def dumpMemos(self, path, filename):
 		try:
-			print "Voice Memo Database: " + self.path() + self.dbRecordings
+			print ( "Voice Memo Database: " + self.path() + self.dbRecordings )
 			db = sqlite3.connect(self.path() + self.dbRecordings)
 			cursor = db.cursor()
 
@@ -674,7 +674,7 @@ class ios:
 
 			db.close()
 		except Exception as e:
-			print e
+			print ( e )
 
 
 		try:
@@ -687,13 +687,13 @@ class ios:
 				vm = row['path']
 				vm = vm.replace("/var/mobile/", "MediaDomain-")
 				vm = self.path() + hashlib.sha1(vm).hexdigest()
-				print vm
+				print ( vm )
 				if os.path.exists(vm):
 					shutil.copyfile(vm, path + "rec/" + str(row['id']) + ".m4a")
 
 			db.close()
 		except Exception as e:
-			print e
+			print ( e )
 
 
 # Notes
@@ -703,7 +703,7 @@ class ios:
 
 	def dumpNotes(self, filename):
 		try:
-			print "Notes Database: " + self.path() + self.dbNotes
+			print ( "Notes Database: " + self.path() + self.dbNotes )
 			db = sqlite3.connect(self.path() + self.dbNotes)
 			cursor = db.cursor()
 
@@ -724,4 +724,4 @@ class ios:
 
 			db.close()
 		except Exception as e:
-			print e
+			print ( e )

@@ -133,17 +133,17 @@ class iOSDumpUI(App):
 		i = iosBackup.index
 		t = threading.Thread(target=iosdump.iosDumpData, args=(i,))
 		t.start()
-		print "Dumping " + str(iosBackup.index)
+		print ( "Dumping " + str(iosBackup.index) )
 
 	def logItem(self, message):
-		print message
+		print ( message )
 
 
 # Initialize Objects, Output Folder and Clean Up Previous Dump
 iosBackup = ios()
 outputFolder = expanduser("~") + "/Desktop/iOSDump/"
 if not os.path.exists(outputFolder):
-	os.mkdir(outputFolder, 0755)
+	os.mkdir(outputFolder, 755)
 else:
 	iosdump.cleanFolder(outputFolder)
 
