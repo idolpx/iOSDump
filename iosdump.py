@@ -55,16 +55,16 @@ def iosDumpData(selection):
 
 	# Clean Up Previous Dump
 	if not os.path.exists(outputFolder):
-		os.mkdir(outputFolder, 755)
+		os.mkdir(outputFolder, 0o755)
 	else:
 		cleanFolder(outputFolder)
 
-		os.mkdir(outputFolder + "contacts", 755)
-		os.mkdir(outputFolder + "db", 755)
-		os.mkdir(outputFolder + "roll", 755)
-		os.mkdir(outputFolder + "rec", 755)
-		os.mkdir(outputFolder + "sms", 755)
-		os.mkdir(outputFolder + "vm", 755)
+		os.mkdir(outputFolder + "contacts", 0o755)
+		os.mkdir(outputFolder + "db", 0o755)
+		os.mkdir(outputFolder + "roll", 0o755)
+		os.mkdir(outputFolder + "rec", 0o755)
+		os.mkdir(outputFolder + "sms", 0o755)
+		os.mkdir(outputFolder + "vm", 0o755)
 
 
 	#print ( ios.dbRecordings
@@ -126,7 +126,7 @@ outputFolder = expanduser(".") + "/dump/"
 if __name__ == "__main__":
 	# Initialize Objects & Set Output Folder
 	if not os.path.exists(outputFolder):
-		os.mkdir(outputFolder, 755)
+		os.mkdir(outputFolder, 0o755)
 	else:
 		cleanFolder(outputFolder)
 
